@@ -4,7 +4,9 @@ import React, { useEffect, useState } from 'react';
 
 function App() {
 
-  const [teachers, setTeachers] = useState([]);
+    const [teachers, setTeachers] = useState({
+        data: []
+    });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -13,11 +15,11 @@ function App() {
     fetch("/api/teachers")
         .then(response => response.json())
         .then(data => {
-          setTeachers(data);
-          setLoading(false);
+            setTeachers(data);
+            setLoading(false);
         })
   }, []);
-  console.log(teachers);
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -28,11 +30,11 @@ function App() {
           <img src={logo} className="App-logo" alt="logo" />
           <div className="App-intro">
             <h2>TEACHER List</h2>
-            {teachers.map(teacher =>
-                <div key={teacher.id}>
-                  {teacher.name}
-                </div>
-            )}
+              {teachers.data.map(teacher =>
+                  <div key={teacher.id}>
+                      {teacher.firstName}
+                  </div>
+              )}
           </div>
         </header>
       </div>
