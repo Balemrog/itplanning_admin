@@ -6,7 +6,7 @@ import {useAuth} from "../context/AuthContext";
 import {ItPlanningApi} from "../api/ItPlanningApi";
 import {handleLogError} from "../helpers/ErrorHandler";
 
-const Teacher = () => {
+const TeacherTable = () => {
 
     const auth = useAuth()
     const user = auth.getUser()
@@ -18,6 +18,7 @@ const Teacher = () => {
 
     useEffect(() => {
         handleGetTeachers()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleGetTeachers = async () => {
@@ -39,16 +40,16 @@ const Teacher = () => {
     }
 
     const remove = async (id) => {
-        await fetch(`/api/teacher/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+        try {
+            const response = await ItPlanningApi.deleteTeacher(user, id)
+            if (response.ok) {
+                await handleGetTeachers();
+            } else {
+                handleLogError(response.statusText);
             }
-        }).then(() => {
-            let updatedTeachers = [...teachers].filter(i => i.id !== id);
-            setTeachers(updatedTeachers);
-        });
+        } catch (error) {
+            handleLogError(error)
+        }
     }
 
     if (isLoading) {
@@ -58,14 +59,16 @@ const Teacher = () => {
     const teacherList = teachers.data.map(teacher => {
         const firstname = `${teacher.firstName || ''}`;
         const lastname = `${teacher.lastName || ''}`;
-        const isEmployee = `${teacher.employee || ''}`;
+        const isEmployee = teacher.isEmployee || false;
         return <tr key={teacher.id}>
             <td>{firstname}</td>
             <td>{lastname}</td>
-            <td>{isEmployee}</td>
+            <td>
+                <input type="checkbox" checked={isEmployee} disabled />
+            </td>
             <td>
                 <ButtonGroup>
-                    <Button size="sm" color="primary" tag={Link} to={"/teachers/" + teacher.id}>Edit</Button>
+                    <Button size="sm" color="primary" tag={Link} to={"/admin/teachers/" + teacher.id}>Edit</Button>
                     <Button size="sm" color="danger" onClick={() => remove(teacher.id)}>Delete</Button>
                 </ButtonGroup>
             </td>
@@ -77,7 +80,7 @@ const Teacher = () => {
             <AppNavbar/>
             <Container fluid>
                 <div className="float-end">
-                    <Button color="success" tag={Link} to="/teacher/new">Ajouter enseignant</Button>
+                    <Button color="success" tag={Link} to="/admin/teachers/new">Ajouter enseignant</Button>
                 </div>
                 <h3>Enseignants</h3>
                 <Table className="mt-4">
@@ -98,4 +101,4 @@ const Teacher = () => {
     );
 };
 
-export default Teacher;
+export default TeacherTable;

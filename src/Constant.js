@@ -1,0 +1,4 @@
+export const ROLE = {
+    SERVICE_PLANNING: "SERVICE_PLANNING",
+    TEACHER: "TEACHER",
+};

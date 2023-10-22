@@ -21,8 +21,8 @@ import {handleLogError} from "../helpers/ErrorHandler";
 
 function Login () {
 
-    const Auth = useAuth()
-    const isLogged = Auth.userIsAuthenticated()
+    const auth = useAuth()
+    const isLogged = auth.userIsAuthenticated()
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -41,7 +41,7 @@ function Login () {
                 const authData = window.btoa(username + ':' + password);
                 const authenticatedUser = {id, name, role, authData};
 
-                Auth.userLogin(authenticatedUser);
+                auth.userLogin(authenticatedUser);
                 setUsername('');
                 setPassword('');
             } else {
