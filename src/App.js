@@ -18,7 +18,7 @@ const App = () => {
                     <Route path="/" element={<PrivateRoute><Home/></PrivateRoute>}/>
                     <Route path='/admin/teachers' element={<AdminRoute><TeacherTable/></AdminRoute>}/>
                     <Route path='/admin/teachers/:id' element={<AdminRoute><TeacherForm/></AdminRoute>}/>
-                    <Route path="*" element={<Navigate to="/" />} />
+                    <Route path="*" element={<Navigate to="/" />}/>
                 </Routes>
             </Router>
         </AuthProvider>
