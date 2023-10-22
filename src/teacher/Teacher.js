@@ -1,23 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
-import AppNavbar from './AppNavbar';
+import AppNavbar from '../helpers/AppNavbar';
 import { Link } from 'react-router-dom';
+import {useAuth} from "../context/AuthContext";
+import {ItPlanningApi} from "../api/ItPlanningApi";
+import {handleLogError} from "../helpers/ErrorHandler";
 
 const Teacher = () => {
 
-    const [teachers, setTeachers] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const auth = useAuth()
+    const user = auth.getUser()
+
+    const [teachers, setTeachers] = useState({
+        data: []
+    });
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        setLoading(true);
+        handleGetTeachers()
+    }, [])
 
-        fetch('/api/teachers')
-            .then(response => response.json())
-            .then(data => {
-                setTeachers(data);
-                setLoading(false);
-            })
-    }, []);
+    const handleGetTeachers = async () => {
+        try {
+            setIsLoading(true)
+            const response = await ItPlanningApi.getTeachers(user)
+            if (response.ok) {
+                const responseData = await response.json();
+                setTeachers(responseData)
+            } else {
+                // Handle errors if the response status is not in the 200 range
+                handleLogError(response.statusText);
+            }
+        } catch (error) {
+            handleLogError(error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     const remove = async (id) => {
         await fetch(`/api/teacher/${id}`, {
@@ -32,14 +51,14 @@ const Teacher = () => {
         });
     }
 
-    if (loading) {
+    if (isLoading) {
         return <p>Loading...</p>;
     }
 
-    const teacherList = teachers.map(teacher => {
-        const firstname = `${teacher.firstname || ''}`;
-        const lastname = `${teacher.lastname || ''}`;
-        const isEmployee = `${teacher.isEmployee || ''}`;
+    const teacherList = teachers.data.map(teacher => {
+        const firstname = `${teacher.firstName || ''}`;
+        const lastname = `${teacher.lastName || ''}`;
+        const isEmployee = `${teacher.employee || ''}`;
         return <tr key={teacher.id}>
             <td>{firstname}</td>
             <td>{lastname}</td>
