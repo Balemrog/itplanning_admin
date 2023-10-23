@@ -12,6 +12,9 @@ export const ItPlanningApi = {
     getSchoolClasses,
     deleteSchoolClass,
     addOrEditSchoolClass,
+    getRooms,
+    deleteRoom,
+    addOrEditRoom,
 };
 
 function authenticate(username, password) {
@@ -141,6 +144,36 @@ function addOrEditSchoolClass(user, schoolClass) {
             'Authorization': basicAuth(user),
         },
         body: JSON.stringify(schoolClass),
+    });
+}
+
+function getRooms(user, id) {
+    const url = id ? `/api/admin/rooms/${id}` : '/api/admin/rooms';
+    return fetch(url, {
+        headers: {
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function deleteRoom(user, id) {
+    return fetch(`/api/admin/rooms/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function addOrEditRoom(user, room) {
+    return fetch(`/api/admin/rooms${room.id ? `/${room.id}` : ''}`, {
+        method: (room.id) ? 'PUT' : 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+        body: JSON.stringify(room),
     });
 }
 
