@@ -21,6 +21,9 @@ export const ItPlanningApi = {
     getLessons,
     deleteLesson,
     addOrEditLesson,
+    getDemands,
+    deleteDemand,
+    addOrEditDemand,
 };
 
 function authenticate(username, password) {
@@ -240,6 +243,36 @@ function addOrEditLesson(user, lesson) {
             'Authorization': basicAuth(user),
         },
         body: JSON.stringify(lesson),
+    });
+}
+
+function getDemands(user, id) {
+    const url = id ? `/api/demands/${id}` : '/api/demands';
+    return fetch(url, {
+        headers: {
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function deleteDemand(user, id) {
+    return fetch(`/api/demands/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function addOrEditDemand(user, demand) {
+    return fetch(`/api/demands${demand.id ? `/${demand.id}` : ''}`, {
+        method: (demand.id) ? 'PUT' : 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+        body: JSON.stringify(demand),
     });
 }
 

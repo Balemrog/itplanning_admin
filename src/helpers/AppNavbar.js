@@ -25,6 +25,10 @@ const AppNavbar = () => {
         const user = getUser()
         return user ? user.login : ''
     }
+    const teacherPageStyle = () => {
+        const user = getUser()
+        return user && user.role === (ROLE.SERVICE_PLANNING || ROLE.TEACHER) ? { "display": "block" } : { "display": "none" }
+    }
 
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownOpen, setDropdown] = useState(false);
@@ -53,6 +57,7 @@ const AppNavbar = () => {
                             <DropdownItem href="/admin/rooms">Salles</DropdownItem>
                             <DropdownItem href="/admin/students">Élèves</DropdownItem>
                             <DropdownItem href="/admin/lessons">Cours</DropdownItem>
+                            <DropdownItem href="/demands" style={teacherPageStyle()}>Demandes</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
                 </Nav>

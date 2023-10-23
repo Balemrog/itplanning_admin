@@ -73,17 +73,17 @@ const RoomForm = () => {
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
                         <Label for="material">Matériel</Label>
-                        <Input type="material" name="material" id="material" value={room.material || ''}
+                        <Input type="text" name="material" id="material" value={room.material || ''}
                                onChange={handleChange} autoComplete="material"/>
                     </FormGroup>
                     <FormGroup>
                         <Label for="roomName">Libellé</Label>
-                        <Input type="roomName" name="roomName" id="roomName" value={room.roomName || ''}
+                        <Input type="text" name="roomName" id="roomName" value={room.roomName || ''}
                                onChange={handleChange} autoComplete="roomName"/>
                     </FormGroup>
                     <FormGroup>
                         <Label for="building">Libellé</Label>
-                        <Input type="building" name="building" id="building" value={room.building || ''}
+                        <Input type="text" name="building" id="building" value={room.building || ''}
                                onChange={handleChange} autoComplete="building"/>
                     </FormGroup>
                     <FormGroup>

@@ -72,12 +72,12 @@ const StudentForm = () => {
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
                         <Label for="firstName">Prénom</Label>
-                        <Input type="firstName" name="firstName" id="firstName" value={student.firstName || ''}
+                        <Input type="text" name="firstName" id="firstName" value={student.firstName || ''}
                                onChange={handleChange} autoComplete="firstName"/>
                     </FormGroup>
                     <FormGroup>
                         <Label for="lastName">Nom</Label>
-                        <Input type="lastName" name="lastName" id="lastName" value={student.lastName || ''}
+                        <Input type="text" name="lastName" id="lastName" value={student.lastName || ''}
                                onChange={handleChange} autoComplete="lastName"/>
                     </FormGroup>
                     <FormGroup>

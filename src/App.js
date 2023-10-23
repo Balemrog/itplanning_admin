@@ -42,6 +42,8 @@ const App = () => {
                     <Route path='/admin/students/:id' element={<AdminRoute><StudentForm/></AdminRoute>}/>
                     <Route path='/admin/lessons' element={<AdminRoute><LessonTable/></AdminRoute>}/>
                     <Route path='/admin/lessons/:id' element={<AdminRoute><LessonForm/></AdminRoute>}/>
+                    <Route path='/demands' element={<PrivateRoute><LessonTable/></PrivateRoute>}/>
+                    <Route path='/demands/:id' element={<PrivateRoute><LessonForm/></PrivateRoute>}/>
                     <Route path="*" element={<Navigate to="/" />}/>
                 </Routes>
             </Router>

@@ -7,25 +7,25 @@ import {handleLogError} from "../../helpers/ErrorHandler";
 import {useAuth} from "../../context/AuthContext";
 
 
-const LessonForm = () => {
+const DemandForm = () => {
 
     const auth = useAuth()
     const user = auth.getUser()
 
     const initialFormState = {
-        label: '',
+        comment: '',
     };
 
-    const [lesson, setLesson] = useState(initialFormState);
+    const [demand, setDemand] = useState(initialFormState);
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const handleGetLessons = async () => {
+    const handleGetDemands = async () => {
         try {
-            const response = await ItPlanningApi.getLessons(user, id);
+            const response = await ItPlanningApi.getDemands(user, id);
             if (response.ok) {
                 const responseData = await response.json();
-                setLesson(responseData);
+                setDemand(responseData);
             } else {
                 handleLogError(response.statusText);
             }
@@ -36,24 +36,24 @@ const LessonForm = () => {
 
     useEffect(() => {
         if (id !== 'new') {
-            handleGetLessons();
+            handleGetDemands();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id, setLesson]);
+    }, [id, setDemand]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setLesson({ ...lesson, [name]: value });
+        setDemand({ ...demand, [name]: value });
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await ItPlanningApi.addOrEditLesson(user, lesson);
+            const response = await ItPlanningApi.addOrEditDemand(user, demand);
             if (response.ok) {
-                setLesson(initialFormState);
-                navigate('/admin/lessons');
+                setDemand(initialFormState);
+                navigate('/demands');
             } else {
                 handleLogError(response.statusText);
             }
@@ -62,7 +62,7 @@ const LessonForm = () => {
         }
     }
 
-    const title = <h2>{lesson.id ? 'Modifier un cours' : 'Ajouter un cours'}</h2>;
+    const title = <h2>{demand.id ? 'Modifier une demande' : 'Ajouter une demande'}</h2>;
 
     return (<div>
             <AppNavbar/>
@@ -70,13 +70,13 @@ const LessonForm = () => {
                 {title}
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
-                        <Label for="label">Nom du cours</Label>
-                        <Input type="text" name="label" id="label" value={lesson.label || ''}
-                               onChange={handleChange} autoComplete="label"/>
+                        <Label for="comment">Commentaire</Label>
+                        <Input type="text" name="comment" id="comment" value={demand.comment || ''}
+                               onChange={handleChange} autoComplete="comment"/>
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Enregistrer</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/admin/campuses">Annuler</Button>
+                        <Button color="secondary" tag={Link} to="/demands">Annuler</Button>
                     </FormGroup>
                 </Form>
             </Container>
@@ -84,4 +84,4 @@ const LessonForm = () => {
     )
 };
 
-export default LessonForm;
+export default DemandForm;
