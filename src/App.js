@@ -16,6 +16,8 @@ import SchoolClassTable from "./entities_component/school_class/SchoolClassTable
 import SchoolClassForm from "./entities_component/school_class/SchoolClassForm";
 import RoomTable from "./entities_component/room/RoomTable";
 import RoomForm from "./entities_component/room/RoomForm";
+import StudentTable from "./entities_component/student/StudentTable";
+import StudentForm from "./entities_component/student/StudentForm";
 
 const App = () => {
     return (
@@ -34,6 +36,8 @@ const App = () => {
                     <Route path='/admin/school-classes/:id' element={<AdminRoute><SchoolClassForm/></AdminRoute>}/>
                     <Route path='/admin/rooms' element={<AdminRoute><RoomTable/></AdminRoute>}/>
                     <Route path='/admin/rooms/:id' element={<AdminRoute><RoomForm/></AdminRoute>}/>
+                    <Route path='/admin/students' element={<AdminRoute><StudentTable/></AdminRoute>}/>
+                    <Route path='/admin/students/:id' element={<AdminRoute><StudentForm/></AdminRoute>}/>
                     <Route path="*" element={<Navigate to="/" />}/>
                 </Routes>
             </Router>

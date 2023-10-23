@@ -50,6 +50,8 @@ const AppNavbar = () => {
                             <DropdownItem href="/admin/campuses">Campus</DropdownItem>
                             <DropdownItem href="/admin/formations">Formations</DropdownItem>
                             <DropdownItem href="/admin/school-classes">Promotions</DropdownItem>
+                            <DropdownItem href="/admin/rooms">Salles</DropdownItem>
+                            <DropdownItem href="/admin/students">Élèves</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
                 </Nav>
