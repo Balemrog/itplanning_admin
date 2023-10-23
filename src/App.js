@@ -20,6 +20,8 @@ import StudentTable from "./entities_component/student/StudentTable";
 import StudentForm from "./entities_component/student/StudentForm";
 import LessonTable from "./entities_component/lesson/LessonTable";
 import LessonForm from "./entities_component/lesson/LessonForm";
+import DemandTable from "./entities_component/demand/DemandTable";
+import DemandForm from "./entities_component/demand/DemandForm";
 
 const App = () => {
     return (
@@ -42,8 +44,8 @@ const App = () => {
                     <Route path='/admin/students/:id' element={<AdminRoute><StudentForm/></AdminRoute>}/>
                     <Route path='/admin/lessons' element={<AdminRoute><LessonTable/></AdminRoute>}/>
                     <Route path='/admin/lessons/:id' element={<AdminRoute><LessonForm/></AdminRoute>}/>
-                    <Route path='/demands' element={<PrivateRoute><LessonTable/></PrivateRoute>}/>
-                    <Route path='/demands/:id' element={<PrivateRoute><LessonForm/></PrivateRoute>}/>
+                    <Route path='/demands' element={<PrivateRoute><DemandTable/></PrivateRoute>}/>
+                    <Route path='/demands/:id' element={<PrivateRoute><DemandForm/></PrivateRoute>}/>
                     <Route path="*" element={<Navigate to="/" />}/>
                 </Routes>
             </Router>
