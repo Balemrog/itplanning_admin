@@ -6,8 +6,6 @@ import {
     Navbar,
     NavbarBrand,
     NavbarToggler,
-    NavItem,
-    NavLink
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {useAuth} from "../context/AuthContext";
@@ -22,6 +20,10 @@ const AppNavbar = () => {
     const adminPageStyle = () => {
         const user = getUser()
         return user && user.role === ROLE.SERVICE_PLANNING ? { "display": "block" } : { "display": "none" }
+    }
+    const getUserName = () => {
+        const user = getUser()
+        return user ? user.login : ''
     }
 
     const [isOpen, setIsOpen] = useState(false);
@@ -45,12 +47,13 @@ const AppNavbar = () => {
                         </DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem href="/admin/teachers">Professeurs</DropdownItem>
+                            <DropdownItem href="/admin/campuses">Campus</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-                    <NavItem>
-                        <NavLink href="/">Planning</NavLink>
-                    </NavItem>
                 </Nav>
+                <div className="d-flex">
+                    <p className="text-white me-2 my-0">{`${getUserName()}`}</p>
+                </div>
                 <Button color="outline-danger" type="submit" onClick={logout}>Déconnexion</Button>
             </Collapse>
         </Navbar>

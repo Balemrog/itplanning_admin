@@ -37,9 +37,9 @@ function Login () {
             const response = await ItPlanningApi.authenticate(username, password);
             if (response.ok) {
                 const responseData = await response.json();
-                const {id, name, role} = responseData;
+                const {id, login, role} = responseData;
                 const authData = window.btoa(username + ':' + password);
-                const authenticatedUser = {id, name, role, authData};
+                const authenticatedUser = {id, login, role, authData};
 
                 auth.userLogin(authenticatedUser);
                 setUsername('');

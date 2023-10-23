@@ -8,6 +8,8 @@ import PrivateRoute from "./helpers/PrivateRoute";
 import AdminRoute from "./helpers/AdminRoute";
 import { AuthProvider } from "./context/AuthContext";
 import TeacherForm from "./teacher/TeacherForm";
+import CampusTable from "./campus/CampusTable";
+import CampusForm from "./campus/CampusForm";
 
 const App = () => {
     return (
@@ -18,6 +20,8 @@ const App = () => {
                     <Route path="/" element={<PrivateRoute><Home/></PrivateRoute>}/>
                     <Route path='/admin/teachers' element={<AdminRoute><TeacherTable/></AdminRoute>}/>
                     <Route path='/admin/teachers/:id' element={<AdminRoute><TeacherForm/></AdminRoute>}/>
+                    <Route path='/admin/campuses' element={<AdminRoute><CampusTable/></AdminRoute>}/>
+                    <Route path='/admin/campuses/:id' element={<AdminRoute><CampusForm/></AdminRoute>}/>
                     <Route path="*" element={<Navigate to="/" />}/>
                 </Routes>
             </Router>
