@@ -74,7 +74,7 @@ const FormationTable = () => {
             <AppNavbar/>
             <Container fluid>
                 <div className="float-end">
-                    <Button color="success" tag={Link} to="/admin/formations/new">Ajouter formation</Button>
+                    <Button color="success" tag={Link} to="/admin/formations/new">Ajouter une formation</Button>
                 </div>
                 <h3>Formation</h3>
                 <Table className="mt-4">

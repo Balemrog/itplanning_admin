@@ -74,7 +74,7 @@ const CampusTable = () => {
             <AppNavbar/>
             <Container fluid>
                 <div className="float-end">
-                    <Button color="success" tag={Link} to="/admin/campuses/new">Ajouter campus</Button>
+                    <Button color="success" tag={Link} to="/admin/campuses/new">Ajouter un campus</Button>
                 </div>
                 <h3>Campus</h3>
                 <Table className="mt-4">
