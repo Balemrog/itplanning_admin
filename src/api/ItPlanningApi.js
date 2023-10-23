@@ -18,6 +18,9 @@ export const ItPlanningApi = {
     getStudents,
     deleteStudent,
     addOrEditStudent,
+    getLessons,
+    deleteLesson,
+    addOrEditLesson,
 };
 
 function authenticate(username, password) {
@@ -207,6 +210,36 @@ function addOrEditStudent(user, student) {
             'Authorization': basicAuth(user),
         },
         body: JSON.stringify(student),
+    });
+}
+
+function getLessons(user, id) {
+    const url = id ? `/api/admin/lessons/${id}` : '/api/admin/lessons';
+    return fetch(url, {
+        headers: {
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function deleteLesson(user, id) {
+    return fetch(`/api/admin/lessons/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function addOrEditLesson(user, lesson) {
+    return fetch(`/api/admin/lessons${lesson.id ? `/${lesson.id}` : ''}`, {
+        method: (lesson.id) ? 'PUT' : 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+        body: JSON.stringify(lesson),
     });
 }
 

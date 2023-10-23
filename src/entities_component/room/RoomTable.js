@@ -80,7 +80,7 @@ const RoomTable = () => {
                 <div className="float-end">
                     <Button color="success" tag={Link} to="/admin/rooms/new">Ajouter une salle</Button>
                 </div>
-                <h3>Formation</h3>
+                <h3>Salle</h3>
                 <Table className="mt-4">
                     <thead>
                     <tr>

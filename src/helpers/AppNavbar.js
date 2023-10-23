@@ -52,6 +52,7 @@ const AppNavbar = () => {
                             <DropdownItem href="/admin/school-classes">Promotions</DropdownItem>
                             <DropdownItem href="/admin/rooms">Salles</DropdownItem>
                             <DropdownItem href="/admin/students">Élèves</DropdownItem>
+                            <DropdownItem href="/admin/lessons">Cours</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
                 </Nav>
