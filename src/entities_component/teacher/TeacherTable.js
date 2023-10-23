@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
-import AppNavbar from '../helpers/AppNavbar';
+import AppNavbar from '../../helpers/AppNavbar';
 import { Link } from 'react-router-dom';
-import {useAuth} from "../context/AuthContext";
-import {ItPlanningApi} from "../api/ItPlanningApi";
-import {handleLogError} from "../helpers/ErrorHandler";
+import {useAuth} from "../../context/AuthContext";
+import {ItPlanningApi} from "../../api/ItPlanningApi";
+import {handleLogError} from "../../helpers/ErrorHandler";
 
 const TeacherTable = () => {
 

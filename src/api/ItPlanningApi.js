@@ -6,6 +6,9 @@ export const ItPlanningApi = {
     getCampuses,
     deleteCampus,
     addOrEditCampus,
+    getFormations,
+    deleteFormation,
+    addOrEditFormation,
 };
 
 function authenticate(username, password) {
@@ -75,6 +78,36 @@ function addOrEditCampus(user, campus) {
             'Authorization': basicAuth(user),
         },
         body: JSON.stringify(campus),
+    });
+}
+
+function getFormations(user, id) {
+    const url = id ? `/api/admin/formations/${id}` : '/api/admin/formations';
+    return fetch(url, {
+        headers: {
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function deleteFormation(user, id) {
+    return fetch(`/api/admin/formations/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function addOrEditFormation(user, formation) {
+    return fetch(`/api/admin/formations${formation.id ? `/${formation.id}` : ''}`, {
+        method: (formation.id) ? 'PUT' : 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+        body: JSON.stringify(formation),
     });
 }
 

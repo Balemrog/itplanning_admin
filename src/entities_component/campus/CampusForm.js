@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
-import AppNavbar from "../helpers/AppNavbar";
-import {ItPlanningApi} from "../api/ItPlanningApi";
-import {handleLogError} from "../helpers/ErrorHandler";
-import {useAuth} from "../context/AuthContext";
+import AppNavbar from "../../helpers/AppNavbar";
+import {ItPlanningApi} from "../../api/ItPlanningApi";
+import {handleLogError} from "../../helpers/ErrorHandler";
+import {useAuth} from "../../context/AuthContext";
 
 
 const CampusForm = () => {
