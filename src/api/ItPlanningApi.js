@@ -9,6 +9,9 @@ export const ItPlanningApi = {
     getFormations,
     deleteFormation,
     addOrEditFormation,
+    getSchoolClasses,
+    deleteSchoolClass,
+    addOrEditSchoolClass,
 };
 
 function authenticate(username, password) {
@@ -108,6 +111,36 @@ function addOrEditFormation(user, formation) {
             'Authorization': basicAuth(user),
         },
         body: JSON.stringify(formation),
+    });
+}
+
+function getSchoolClasses(user, id) {
+    const url = id ? `/api/admin/school-classes/${id}` : '/api/admin/school-classes';
+    return fetch(url, {
+        headers: {
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function deleteSchoolClass(user, id) {
+    return fetch(`/api/admin/school-classes/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function addOrEditSchoolClass(user, schoolClass) {
+    return fetch(`/api/admin/school-classes${schoolClass.id ? `/${schoolClass.id}` : ''}`, {
+        method: (schoolClass.id) ? 'PUT' : 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+        body: JSON.stringify(schoolClass),
     });
 }
 

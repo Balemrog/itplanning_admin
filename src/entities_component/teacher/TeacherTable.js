@@ -80,7 +80,7 @@ const TeacherTable = () => {
             <AppNavbar/>
             <Container fluid>
                 <div className="float-end">
-                    <Button color="success" tag={Link} to="/admin/teachers/new">Ajouter enseignant</Button>
+                    <Button color="success" tag={Link} to="/admin/teachers/new">Ajouter un enseignant</Button>
                 </div>
                 <h3>Enseignants</h3>
                 <Table className="mt-4">

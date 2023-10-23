@@ -7,7 +7,7 @@ import {handleLogError} from "../../helpers/ErrorHandler";
 import {useAuth} from "../../context/AuthContext";
 
 
-const FormationForm = () => {
+const SchoolClassForm = () => {
 
     const auth = useAuth()
     const user = auth.getUser()
@@ -16,16 +16,16 @@ const FormationForm = () => {
         label: '',
     };
 
-    const [formation, setFormation] = useState(initialFormState);
+    const [schoolClass, setSchoolClass] = useState(initialFormState);
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const handleGetFormations = async () => {
+    const handleGetSchoolClasses = async () => {
         try {
-            const response = await ItPlanningApi.getFormations(user, id);
+            const response = await ItPlanningApi.getSchoolClasses(user, id);
             if (response.ok) {
                 const responseData = await response.json();
-                setFormation(responseData);
+                setSchoolClass(responseData);
             } else {
                 handleLogError(response.statusText);
             }
@@ -36,24 +36,24 @@ const FormationForm = () => {
 
     useEffect(() => {
         if (id !== 'new') {
-            handleGetFormations();
+            handleGetSchoolClasses();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id, setFormation]);
+    }, [id, setSchoolClass]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormation({ ...formation, [name]: value });
+        setSchoolClass({ ...schoolClass, [name]: value });
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await ItPlanningApi.addOrEditFormation(user, formation);
+            const response = await ItPlanningApi.addOrEditSchoolClass(user, schoolClass);
             if (response.ok) {
-                setFormation(initialFormState);
-                navigate('/admin/formations');
+                setSchoolClass(initialFormState);
+                navigate('/admin/school-classes');
             } else {
                 handleLogError(response.statusText);
             }
@@ -62,7 +62,7 @@ const FormationForm = () => {
         }
     }
 
-    const title = <h2>{formation.id ? 'Modifier une formation' : 'Ajouter une formation'}</h2>;
+    const title = <h2>{schoolClass.id ? 'Modifier une promotion' : 'Ajouter une promotion'}</h2>;
 
     return (<div>
             <AppNavbar/>
@@ -71,12 +71,12 @@ const FormationForm = () => {
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
                         <Label for="label">Libellé</Label>
-                        <Input type="text" name="label" id="label" value={formation.label || ''}
+                        <Input type="text" name="label" id="label" value={schoolClass.label || ''}
                                onChange={handleChange} autoComplete="label"/>
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Enregistrer</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/admin/formations">Annuler</Button>
+                        <Button color="secondary" tag={Link} to="/admin/school-classes">Annuler</Button>
                     </FormGroup>
                 </Form>
             </Container>
@@ -84,4 +84,4 @@ const FormationForm = () => {
     )
 };
 
-export default FormationForm;
+export default SchoolClassForm;

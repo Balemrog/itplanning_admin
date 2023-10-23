@@ -41,7 +41,7 @@ function SearchPlanning() {
                                         <Input type="text" name="lesson" id="lesson" value={planning.lesson || ''} onChange={handleChange}/>
                                     </FormGroup>
                                     <FormGroup className="col-md-4 mb-3">
-                                        <Label for="teacher">Professeur</Label>
+                                        <Label for="teacher">Enseignant</Label>
                                         <Input type="text" name="teacher" id="teacher" value={planning.teacher || ''} onChange={handleChange}/>
                                     </FormGroup>
                                 </div>

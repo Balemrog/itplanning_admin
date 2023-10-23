@@ -69,7 +69,7 @@ const TeacherForm = () => {
         }
     }
 
-    const title = <h2>{teacher.id ? 'Edit Teacher' : 'Add Teacher'}</h2>;
+    const title = <h2>{teacher.id ? 'Modifier un enseignant' : 'Ajouter un enseignant'}</h2>;
 
     return (<div>
             <AppNavbar/>

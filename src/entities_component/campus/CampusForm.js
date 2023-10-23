@@ -62,7 +62,7 @@ const CampusForm = () => {
         }
     }
 
-    const title = <h2>{campus.id ? 'Edit Campus' : 'Add Campus'}</h2>;
+    const title = <h2>{campus.id ? 'Modifier un campus' : 'Ajouter un campus'}</h2>;
 
     return (<div>
             <AppNavbar/>

@@ -12,6 +12,8 @@ import CampusTable from "./entities_component/campus/CampusTable";
 import CampusForm from "./entities_component/campus/CampusForm";
 import FormationTable from "./entities_component/formation/FormationTable";
 import FormationForm from "./entities_component/formation/FormationForm";
+import SchoolClassTable from "./entities_component/school_class/SchoolClassTable";
+import SchoolClassForm from "./entities_component/school_class/SchoolClassForm";
 
 const App = () => {
     return (
@@ -26,6 +28,8 @@ const App = () => {
                     <Route path='/admin/campuses/:id' element={<AdminRoute><CampusForm/></AdminRoute>}/>
                     <Route path='/admin/formations' element={<AdminRoute><FormationTable/></AdminRoute>}/>
                     <Route path='/admin/formations/:id' element={<AdminRoute><FormationForm/></AdminRoute>}/>
+                    <Route path='/admin/school-classes' element={<AdminRoute><SchoolClassTable/></AdminRoute>}/>
+                    <Route path='/admin/school-classes/:id' element={<AdminRoute><SchoolClassForm/></AdminRoute>}/>
                     <Route path="*" element={<Navigate to="/" />}/>
                 </Routes>
             </Router>
