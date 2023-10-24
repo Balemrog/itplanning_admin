@@ -11,11 +11,18 @@ const RoomForm = () => {
 
     const auth = useAuth()
     const user = auth.getUser()
+    const [campuses, setCampuses] = useState({
+        data: []
+    });
 
     const initialFormState = {
         material: '',
         roomName: '',
         building: '',
+        campus: {
+            id: '',
+            location: '',
+        },
     };
 
     const [room, setRoom] = useState(initialFormState);
@@ -35,17 +42,45 @@ const RoomForm = () => {
             handleLogError(error);
         }
     }
+    const handleGetCampuses = async () => {
+        try {
+            const response = await ItPlanningApi.getCampuses(user)
+            if (response.ok) {
+                const responseData = await response.json();
+                setCampuses(responseData)
+            } else {
+                handleLogError(response.statusText);
+            }
+        } catch (error) {
+            handleLogError(error)
+        }
+    }
 
     useEffect(() => {
         if (id !== 'new') {
             handleGetRooms();
         }
+        handleGetCampuses();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, setRoom]);
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setRoom({ ...room, [name]: value });
+        const { name, value, type } = event.target;
+
+        if (type === "select-one") {
+            const selectedIndex  = event.target.options.selectedIndex;
+            const id = event.target.options[selectedIndex].getAttribute('data-key')
+            // if (name === "campus") {
+            //     console.log("test")
+            // }
+            setRoom({...room, campus: {
+                ...room.campus,
+                    id: id,
+                    location: value}
+                });
+        } else {
+            setRoom({ ...room, [name]: value });
+        }
     }
 
     const handleSubmit = async (event) => {
@@ -77,14 +112,26 @@ const RoomForm = () => {
                                onChange={handleChange} autoComplete="material"/>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="roomName">Libellé</Label>
+                        <Label for="roomName">Nom de la salle</Label>
                         <Input type="text" name="roomName" id="roomName" value={room.roomName || ''}
                                onChange={handleChange} autoComplete="roomName"/>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="building">Libellé</Label>
+                        <Label for="building">Bâtiment</Label>
                         <Input type="text" name="building" id="building" value={room.building || ''}
                                onChange={handleChange} autoComplete="building"/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="campus">Campus</Label>
+                        <Input type="select" name="campus" id="campus" value={room.campus.location || ''}
+                               onChange={handleChange} autoComplete="campus">
+                            <option value="">Sélectionnez le campus</option>
+                            {campuses.data.map((campus) => (
+                                <option key={campus.id} data-key={campus.id} value={campus.location}>
+                                    {campus.location}
+                                </option>
+                            ))}
+                        </Input>
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Enregistrer</Button>{' '}
