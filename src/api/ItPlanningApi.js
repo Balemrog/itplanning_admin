@@ -208,6 +208,7 @@ function deleteStudent(user, id) {
 }
 
 function addOrEditStudent(user, student) {
+    console.log(student)
     return fetch(`${config.url.API_BASE_URL}/api/admin/students${student.id ? `/${student.id}` : ''}`, {
         method: (student.id) ? 'PUT' : 'POST',
         headers: {

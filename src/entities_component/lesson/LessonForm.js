@@ -76,7 +76,7 @@ const LessonForm = () => {
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Enregistrer</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/admin/campuses">Annuler</Button>
+                        <Button color="secondary" tag={Link} to="/admin/lessons">Annuler</Button>
                     </FormGroup>
                 </Form>
             </Container>

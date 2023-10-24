@@ -76,7 +76,7 @@ const DemandTable = () => {
                 <div className="float-end">
                     <Button color="success" tag={Link} to="/demands/new">Ajouter une demande</Button>
                 </div>
-                <h3>Campus</h3>
+                <h3>Demandes</h3>
                 <Table className="mt-4">
                     <thead>
                     <tr>

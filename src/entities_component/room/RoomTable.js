@@ -60,10 +60,12 @@ const RoomTable = () => {
         const material = `${room.material || ''}`;
         const roomName = `${room.roomName || ''}`;
         const building = `${room.building || ''}`;
+        const location = `${room.campus.location || ''}`;
         return <tr key={room.id}>
             <td>{material}</td>
             <td>{roomName}</td>
             <td>{building}</td>
+            <td>{location}</td>
             <td>
                 <ButtonGroup>
                     <Button size="sm" color="primary" tag={Link} to={"/admin/rooms/" + room.id}>Edit</Button>
@@ -87,6 +89,7 @@ const RoomTable = () => {
                         <th width="20%">Matériel</th>
                         <th width="20%">Salle</th>
                         <th width="20%">Bâtiment</th>
+                        <th width="20%">Campus</th>
                         <th width="10%">Actions</th>
                     </tr>
                     </thead>

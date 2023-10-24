@@ -11,9 +11,6 @@ const RoomForm = () => {
 
     const auth = useAuth()
     const user = auth.getUser()
-    const [campuses, setCampuses] = useState({
-        data: []
-    });
 
     const initialFormState = {
         material: '',
@@ -28,10 +25,13 @@ const RoomForm = () => {
     const [room, setRoom] = useState(initialFormState);
     const navigate = useNavigate();
     const { id } = useParams();
+    const [campuses, setCampuses] = useState({
+        data: []
+    });
 
     const handleGetRooms = async () => {
         try {
-            const response = await ItPlanningApi.getFormations(user, id);
+            const response = await ItPlanningApi.getRooms(user, id);
             if (response.ok) {
                 const responseData = await response.json();
                 setRoom(responseData);
@@ -70,9 +70,6 @@ const RoomForm = () => {
         if (type === "select-one") {
             const selectedIndex  = event.target.options.selectedIndex;
             const id = event.target.options[selectedIndex].getAttribute('data-key')
-            // if (name === "campus") {
-            //     console.log("test")
-            // }
             setRoom({...room, campus: {
                 ...room.campus,
                     id: id,
@@ -85,7 +82,9 @@ const RoomForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        if (room === initialFormState) {
+            return;
+        }
         try {
             const response = await ItPlanningApi.addOrEditRoom(user, room);
             if (response.ok) {

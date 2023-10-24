@@ -30,7 +30,9 @@ function Login () {
 
     const loginHandler = async (ev) => {
         ev.preventDefault();
+        console.log("sdfsfsdfdsfsdff")
         if (!username || !password) {
+            console.log("jsuis recal")
             return;
         }
         try {
