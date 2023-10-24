@@ -39,7 +39,7 @@ function authenticate(username, password) {
 }
 
 function getTeachers(user, id) {
-    const url = id ? `${config.url.API_BASE_URL}/api/admin/teachers/${id}` : '/api/admin/teachers';
+    const url = id ? `${config.url.API_BASE_URL}/api/admin/teachers/${id}` : `${config.url.API_BASE_URL}/api/admin/teachers`;
     return fetch(url, {
         headers: {
             'Authorization': basicAuth(user),
@@ -69,7 +69,7 @@ function addOrEditTeacher(user, teacher) {
 }
 
 function getCampuses(user, id) {
-    const url = id ? `${config.url.API_BASE_URL}/api/admin/campuses/${id}` : '/api/admin/campuses';
+    const url = id ? `${config.url.API_BASE_URL}/api/admin/campuses/${id}` : `${config.url.API_BASE_URL}/api/admin/campuses`;
     return fetch(url, {
         headers: {
             'Authorization': basicAuth(user),
@@ -99,7 +99,7 @@ function addOrEditCampus(user, campus) {
 }
 
 function getFormations(user, id) {
-    const url = id ? `${config.url.API_BASE_URL}/api/admin/formations/${id}` : '/api/admin/formations';
+    const url = id ? `${config.url.API_BASE_URL}/api/admin/formations/${id}` : `${config.url.API_BASE_URL}/api/admin/formations`;
     return fetch(url, {
         headers: {
             'Authorization': basicAuth(user),
@@ -129,7 +129,7 @@ function addOrEditFormation(user, formation) {
 }
 
 function getSchoolClasses(user, id) {
-    const url = id ? `${config.url.API_BASE_URL}/api/admin/school-classes/${id}` : '/api/admin/school-classes';
+    const url = id ? `${config.url.API_BASE_URL}/api/admin/school-classes/${id}` : `${config.url.API_BASE_URL}/api/admin/school-classes`;
     return fetch(url, {
         headers: {
             'Authorization': basicAuth(user),
@@ -159,7 +159,7 @@ function addOrEditSchoolClass(user, schoolClass) {
 }
 
 function getRooms(user, id) {
-    const url = id ? `${config.url.API_BASE_URL}/api/admin/rooms/${id}` : '/api/admin/rooms';
+    const url = id ? `${config.url.API_BASE_URL}/api/admin/rooms/${id}` : `${config.url.API_BASE_URL}/api/admin/rooms`;
     return fetch(url, {
         headers: {
             'Authorization': basicAuth(user),
@@ -189,7 +189,7 @@ function addOrEditRoom(user, room) {
 }
 
 function getStudents(user, id) {
-    const url = id ? `${config.url.API_BASE_URL}/api/admin/students/${id}` : '/api/admin/students';
+    const url = id ? `${config.url.API_BASE_URL}/api/admin/students/${id}` : `${config.url.API_BASE_URL}/api/admin/students`;
     return fetch(url, {
         headers: {
             'Authorization': basicAuth(user),
@@ -219,7 +219,7 @@ function addOrEditStudent(user, student) {
 }
 
 function getLessons(user, id) {
-    const url = id ? `${config.url.API_BASE_URL}/api/admin/lessons/${id}` : '/api/admin/lessons';
+    const url = id ? `${config.url.API_BASE_URL}/api/admin/lessons/${id}` : `${config.url.API_BASE_URL}/api/admin/lessons`;
     return fetch(url, {
         headers: {
             'Authorization': basicAuth(user),
@@ -249,7 +249,7 @@ function addOrEditLesson(user, lesson) {
 }
 
 function getDemands(user, id) {
-    const url = id ? `${config.url.API_BASE_URL}/api/demands/${id}` : '/api/demands';
+    const url = id ? `${config.url.API_BASE_URL}/api/demands/${id}` : `${config.url.API_BASE_URL}/api/demands`;
     return fetch(url, {
         headers: {
             'Authorization': basicAuth(user),

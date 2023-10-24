@@ -1,8 +1,5 @@
 import React, {useState} from 'react';
 import {Button, Card, CardBody, Col, Form, FormGroup, Input, Label, Row} from "reactstrap";
-import {config} from "../EnvConfig";
-
-
 
 function SearchPlanning() {
 
@@ -11,8 +8,6 @@ function SearchPlanning() {
         lesson: '',
         teacher: '',
     };
-    console.log(process.env.NODE_ENV);
-    console.log(config.url.API_BASE_URL);
     const [planning, setPlanning] = useState(initialFormState);
 
     const handleChange = (event) => {
