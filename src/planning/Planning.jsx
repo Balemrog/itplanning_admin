@@ -83,7 +83,7 @@ export default class Planning extends React.Component {
 
   saveLessonSession = async (lessonSessionData) => {
     try {
-
+      console.log(lessonSessionData.title)
       const newLessonSession = {
         title: lessonSessionData.title,
         start: this.state.selectedEventInfo.startStr,
@@ -108,6 +108,7 @@ export default class Planning extends React.Component {
           },
           updateLesson: false,
         });
+        this.fetchEvents();
         this.state.navigate('/');
       } else {
         handleLogError(response.statusText);
@@ -119,6 +120,7 @@ export default class Planning extends React.Component {
 
   handleFormChange = (e) => {
     const { name, value } = e.target;
+    console.log(e.target)
     this.setState((prevState) => ({
       formData: {
         ...prevState.formData,
@@ -260,11 +262,11 @@ export default class Planning extends React.Component {
                 <ModalBody>
                   <FormGroup>
                     <Label for="title">Titre</Label>
-                    <Input type="text" name="label" id="label" value={this.state.formData.title} onChange={this.handleFormChange} autoComplete="label"/>
+                    <Input type="text" name="title" id="title" value={this.state.formData.title || ''} onChange={this.handleFormChange} autoComplete="label"/>
                   </FormGroup>
                   <FormGroup>
                     <Label for="teacher">Enseignant</Label>
-                    <Input type="select" name="teacher" id="teacher" value={this.state.formData.teacher} onChange={this.handleFormChange}>
+                    <Input type="select" name="teacher" id="teacher" value={this.state.formData.teacher || ''} onChange={this.handleFormChange}>
                       <option value="">Sélectionnez un enseignant</option>
                       {this.state.teachers.data.map((teacher) => (
                           <option key={teacher.id} value={teacher.id}>
@@ -275,7 +277,7 @@ export default class Planning extends React.Component {
                   </FormGroup>
                   <FormGroup>
                     <Label for="lesson">Cours</Label>
-                    <Input type="select" name="lesson" id="lesson" value={this.state.formData.lesson.label} onChange={this.handleFormChange}>
+                    <Input type="select" name="lesson" id="lesson" value={this.state.formData.lesson || ''} onChange={this.handleFormChange}>
                       <option value="">Sélectionnez un cours</option>
                       {this.state.lessons.data.map((lesson) => (
                           <option key={lesson.id} value={lesson.id}>
@@ -286,7 +288,7 @@ export default class Planning extends React.Component {
                   </FormGroup>
                   <FormGroup>
                     <Label for="room">Salle</Label>
-                    <Input type="select" name="room" id="room" value={this.state.formData.room} onChange={this.handleFormChange}>
+                    <Input type="select" name="room" id="room" value={this.state.formData.room || ''} onChange={this.handleFormChange}>
                       <option value="">Sélectionnez une salle</option>
                       {this.state.rooms.data.map((room) => (
                           <option key={room.id} value={room.id}>
@@ -297,7 +299,7 @@ export default class Planning extends React.Component {
                   </FormGroup>
                   <FormGroup>
                     <Label for="schoolClass">Promotion</Label>
-                    <Input type="select" name="schoolClass" id="schoolClass" value={this.state.formData.schoolClass} onChange={this.handleFormChange}>
+                    <Input type="select" name="schoolClass" id="schoolClass" value={this.state.formData.schoolClass || ''} onChange={this.handleFormChange}>
                       <option value="">Sélectionnez une promotion</option>
                       {this.state.schoolClasses.data.map((schoolClass) => (
                           <option key={schoolClass.id} value={schoolClass.id}>
@@ -397,10 +399,18 @@ function renderEventContent(eventInfo) {
         <b>{eventInfo.timeText}</b>
         <div className='fc-event-title-container'>
           <div className='fc-event-title fc-sticky'>{eventInfo.event.title}</div>
-          <div className='fc-event-teacher'>{eventInfo.event.extendedProps.teacherDto.firstName}</div>
-          <div className='fc-event-teacher'>{eventInfo.event.extendedProps.lessonDto.label}</div>
-          <div className='fc-event-teacher'>{eventInfo.event.extendedProps.roomDto.roomName}</div>
-          <div className='fc-event-teacher'>{eventInfo.event.extendedProps.schoolClassDto.label}</div>
+          {Object.keys(eventInfo.event.extendedProps).length > 0 && (
+              <div className='fc-event-teacher'>{eventInfo.event.extendedProps.teacherDto.firstName}</div>
+          )}
+          {Object.keys(eventInfo.event.extendedProps).length > 0 && (
+              <div className='fc-event-lesson'>{eventInfo.event.extendedProps.lessonDto.label}</div>
+          )}
+          {Object.keys(eventInfo.event.extendedProps).length > 0 && (
+              <div className='fc-event-room'>{eventInfo.event.extendedProps.roomDto.roomName}</div>
+          )}
+          {Object.keys(eventInfo.event.extendedProps).length > 0 && (
+              <div className='fc-event-schoolClass'>{eventInfo.event.extendedProps.schoolClassDto.label}</div>
+          )}
         </div>
       </div>
   )
