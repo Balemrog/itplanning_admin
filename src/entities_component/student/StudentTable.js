@@ -23,13 +23,11 @@ const StudentTable = () => {
 
     const handleGetStudents = async () => {
         try {
-            console.log("avant ctash")
             setIsLoading(true)
             const response = await ItPlanningApi.getStudents(user)
             if (response.ok) {
                 const responseData = await response.json();
                 setStudents(responseData)
-                console.log(responseData)
             } else {
                 // Handle errors if the response status is not in the 200 range
                 handleLogError(response.statusText);

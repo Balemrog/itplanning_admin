@@ -4,6 +4,8 @@ import AppNavbar from './helpers/AppNavbar';
 import { Container } from 'reactstrap';
 import SearchPlanning from "./planning/SearchPlanning";
 import Planning from "./planning/Planning";
+import {useAuth} from "./context/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 const Home = () => {
     return (
@@ -11,7 +13,7 @@ const Home = () => {
             <AppNavbar/>
             <Container>
                 <SearchPlanning/>
-                <Planning/>
+                <Planning user={useAuth().getUser()} navigate={useNavigate()}/>
             </Container>
         </div>
     );

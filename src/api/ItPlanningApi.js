@@ -26,6 +26,9 @@ export const ItPlanningApi = {
     getDemands,
     deleteDemand,
     addOrEditDemand,
+    getLessonSessions,
+    deleteLessonSession,
+    addOrEditLessonSession,
 };
 
 function authenticate(username, password) {
@@ -208,7 +211,6 @@ function deleteStudent(user, id) {
 }
 
 function addOrEditStudent(user, student) {
-    console.log(student)
     return fetch(`${config.url.API_BASE_URL}/api/admin/students${student.id ? `/${student.id}` : ''}`, {
         method: (student.id) ? 'PUT' : 'POST',
         headers: {
@@ -276,6 +278,37 @@ function addOrEditDemand(user, demand) {
             'Authorization': basicAuth(user),
         },
         body: JSON.stringify(demand),
+    });
+}
+
+function getLessonSessions(user, id) {
+    const url = id ? `${config.url.API_BASE_URL}/api/admin/lesson-sessions/${id}` : `${config.url.API_BASE_URL}/api/lesson-sessions`;
+    return fetch(url, {
+        headers: {
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function deleteLessonSession(user, id) {
+    return fetch(`${config.url.API_BASE_URL}/api/admin/lesson-sessions/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+    });
+}
+
+function addOrEditLessonSession(user, lessonSession) {
+    console.log(lessonSession)
+    return fetch(`${config.url.API_BASE_URL}/api/admin/lesson-sessions${lessonSession.id ? `/${lessonSession.id}` : ''}`, {
+        method: (lessonSession.id) ? 'PUT' : 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': basicAuth(user),
+        },
+        body: JSON.stringify(lessonSession),
     });
 }
 
