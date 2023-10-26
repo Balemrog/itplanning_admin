@@ -83,7 +83,6 @@ export default class Planning extends React.Component {
 
   saveLessonSession = async (lessonSessionData) => {
     try {
-      console.log(lessonSessionData.title)
       const newLessonSession = {
         title: lessonSessionData.title,
         start: this.state.selectedEventInfo.startStr,
@@ -120,7 +119,6 @@ export default class Planning extends React.Component {
 
   handleFormChange = (e) => {
     const { name, value } = e.target;
-    console.log(e.target)
     this.setState((prevState) => ({
       formData: {
         ...prevState.formData,
@@ -368,8 +366,9 @@ export default class Planning extends React.Component {
   handleEventClick = (clickInfo) => {
     const event = clickInfo.event;
     const { lessonDto, roomDto, schoolClassDto, teacherDto } = event.extendedProps;
-
-    console.log(event.title)
+    console.log(this.state.formData)
+    console.log(lessonDto)
+    console.log(roomDto)
     this.setState({
       showModal: true,
       selectedEventInfo: event,

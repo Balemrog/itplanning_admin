@@ -1,6 +1,6 @@
 const prod = {
     url: {
-        API_BASE_URL: 'http://itplanning-services.ovh',
+        API_BASE_URL: 'https://itplanning-services-b2f25175a56f.herokuapp.com',
     }
 }
 
