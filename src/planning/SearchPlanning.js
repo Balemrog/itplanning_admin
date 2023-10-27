@@ -63,12 +63,12 @@ function SearchPlanning() {
     <>
       <Row>
         <Col>
-          <Card className='className="mb-5"'>
+          <Card className='className="mb-1"'>
             <CardBody>
               <h2>Rechercher un planning</h2>
               <Form>
-                <div className="d-flex p-5 justify-content-center">
-                  <div className="d-flex p-5">
+                <div className="d-flex justify-content-center">
+                  <div className="d-flex p-3">
                     <Dropdown
                       isOpen={dropdownOpenSalle}
                       toggle={toggleSalle}
@@ -87,7 +87,7 @@ function SearchPlanning() {
                       </DropdownMenu>
                     </Dropdown>
                   </div>
-                  <div className="d-flex p-5">
+                  <div className="d-flex p-3">
                     <Dropdown
                       isOpen={dropdownOpenCours}
                       toggle={toggleCours}
@@ -106,7 +106,7 @@ function SearchPlanning() {
                       </DropdownMenu>
                     </Dropdown>
                   </div>
-                  <div className="d-flex p-5">
+                  <div className="d-flex p-3">
                     <Dropdown
                       isOpen={dropdownOpenEnseignant}
                       toggle={toggleEnseignant}
