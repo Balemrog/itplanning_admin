@@ -3,12 +3,39 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import {createEventId} from "./event-utils"
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import {ItPlanningApi} from "../api/ItPlanningApi";
 import {handleLogError} from "../helpers/ErrorHandler";
+import {ROLE} from "../Constant";
 
 export default class Planning extends React.Component {
+
+  resetState = () => {
+    this.setState({
+      showModal: false,
+      selectedEventInfo: null,
+      formData: {
+        title: '',
+        teacher: {
+          id: '',
+          firstName: '',
+        },
+        lesson: {
+          id: '',
+          label: '',
+        },
+        room: {
+          id: '',
+          roomName: '',
+        },
+        schoolClass: {
+          id: '',
+          label: '',
+        },
+      },
+      isUpdateLessonSession: false,
+    });
+  }
 
   state = {
     weekendsVisible: false,
@@ -16,50 +43,44 @@ export default class Planning extends React.Component {
     selectedEventInfo: null,
     formData: {
       title: '',
-      teacher: '',
-      lesson: '',
-      room: '',
-      schoolClass: '',
+      teacher: {
+        id: '',
+        firstName: '',
+      },
+      lesson: {
+        id: '',
+        label: '',
+      },
+      room: {
+        id: '',
+        roomName: '',
+      },
+      schoolClass: {
+        id: '',
+        label: '',
+      },
     },
-    // Pour savoir si on modifie le cours (pas en création)
-    updateLesson: false,
+    isUpdateLessonSession: false,
     user: this.props.user,
     navigate: this.props.navigate,
-    teachers: { data: [] },
-    lessons: { data: [] },
-    rooms: { data: [] },
-    schoolClasses: { data: [] },
+    teachers: [],
+    lessons: [],
+    rooms: [],
+    schoolClasses: [],
   }
 
-  // Méthode pour afficher la modal
   handleEventSelectModal = (selectInfo) => {
-    // Collectez les informations nécessaires pour créer un nouvel événement et affichez la modal
     this.setState({
       showModal: true,
       selectedEventInfo: selectInfo,
     });
   };
 
-  // Méthode pour fermer la modal
   handleCloseModal = () => {
-    // On reset les données
-    this.setState({
-      showModal: false,
-      selectedEventInfo: null,
-      formData: {
-        title: '',
-        teacher: '',
-        lesson: '',
-        room: '',
-        schoolClass: '',
-      },
-      updateLesson: false,
-    });
-    // Au cas où on quitte sans cliquer nul part avec la touche Echap, on déselectionne l'évènnement
+    this.resetState();
     this.deselectEvent();
   };
 
-  // Désélectionnez la plage horaire
   deselectEvent = () => {
     if (this.state.selectedEventInfo) {
       const { view } = this.state.selectedEventInfo;
@@ -69,15 +90,8 @@ export default class Planning extends React.Component {
     }
   };
 
-  // Méthode pour sauvegarder le cours (ajout ou modification) on peut utiliser le hook d'état updateLesson
-  // si on veut faire une instruction différente dans le cas d'une modification
   handleSubmit = (event) => {
     event.preventDefault();
-    // if (this.state.updateLesson) {
-    //
-    // } else {
-    //   this.saveLessonSession(this.state.formData);
-    // }
     this.saveLessonSession(this.state.formData);
   };
 
@@ -92,21 +106,12 @@ export default class Planning extends React.Component {
         room: lessonSessionData.room,
         schoolClass: lessonSessionData.schoolClass
       };
-
+      if (this.state.isUpdateLessonSession) {
+        newLessonSession.id = this.state.selectedEventInfo.id;
+      }
       const response = await ItPlanningApi.addOrEditLessonSession(this.state.user, newLessonSession);
       if (response.ok) {
-        this.setState({
-          showModal: false,
-          selectedEventInfo: null,
-          formData: {
-            title: '',
-            teacher: '',
-            lesson: '',
-            room: '',
-            schoolClass: '',
-          },
-          updateLesson: false,
-        });
+        this.resetState();
         this.fetchEvents();
         this.state.navigate('/');
       } else {
@@ -117,22 +122,59 @@ export default class Planning extends React.Component {
     }
   };
 
-  handleFormChange = (e) => {
-    const { name, value } = e.target;
-    this.setState((prevState) => ({
-      formData: {
-        ...prevState.formData,
-        [name]: value,
-      },
-    }));
+  handleFormChange = (event) => {
+    const { name, value, type } = event.target;
+    if (type === "select-one") {
+      const selectedIndex  = event.target.options.selectedIndex;
+      const id = event.target.options[selectedIndex].getAttribute('data-key')
+      if (name === "schoolClass") {
+        this.setState((prevState) => ({
+          formData: {
+            ...prevState.formData, schoolClass: {
+              id: id,
+              label: value}
+          },
+        }));
+      } else if (name === "room") {
+        this.setState((prevState) => ({
+          formData: {
+            ...prevState.formData, room: {
+              id: id,
+              roomName: value}
+          },
+        }));
+      } else if (name === "teacher") {
+        this.setState((prevState) => ({
+          formData: {
+            ...prevState.formData, teacher: {
+              id: id,
+              firstName: value}
+          },
+        }));
+      } else if (name === "lesson") {
+        this.setState((prevState) => ({
+          formData: {
+            ...prevState.formData, lesson: {
+              id: id,
+              label: value}
+          },
+        }));
+      }
+    } else {
+      this.setState((prevState) => ({
+        formData: {
+          ...prevState.formData,
+          [name]: value,
+        },
+      }));
+    }
   };
 
   async fetchEvents() {
     try {
-      const response = await ItPlanningApi.getLessonSessions(this.state.user); // Replace 'getEvents' with your actual API call
+      const response = await ItPlanningApi.getLessonSessions(this.state.user);
       if (response.ok) {
         const responseData = await response.json();
-        // Assuming your response data is an array of event objects, update your state with it
         this.setState({ events: responseData });
       } else {
         handleLogError(response.statusText);
@@ -151,7 +193,6 @@ export default class Planning extends React.Component {
           const responseData = await response.json();
           this.setState({ teachers: responseData});
         } else {
-          // Handle errors if the response status is not in the 200 range
           handleLogError(response.statusText);
         }
       } catch (error) {
@@ -166,7 +207,6 @@ export default class Planning extends React.Component {
           const responseData = await response.json();
           this.setState({ lessons: responseData});
         } else {
-          // Handle errors if the response status is not in the 200 range
           handleLogError(response.statusText);
         }
       } catch (error) {
@@ -181,7 +221,6 @@ export default class Planning extends React.Component {
           const responseData = await response.json();
           this.setState({ rooms: responseData});
         } else {
-          // Handle errors if the response status is not in the 200 range
           handleLogError(response.statusText);
         }
       } catch (error) {
@@ -196,7 +235,6 @@ export default class Planning extends React.Component {
           const responseData = await response.json();
           this.setState({ schoolClasses: responseData});
         } else {
-          // Handle errors if the response status is not in the 200 range
           handleLogError(response.statusText);
         }
       } catch (error) {
@@ -223,13 +261,13 @@ export default class Planning extends React.Component {
                   right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 }}
                 initialView='timeGridWeek'
-                editable={true}
-                selectable={true}
+                editable={this.state.user.role === ROLE.SERVICE_PLANNING}
+                selectable={this.state.user.role === ROLE.SERVICE_PLANNING}
                 selectMirror={true}
                 dayMaxEvents={true}
                 locale={'fr'}
                 allDayText={'Toute la journée'}
-                allDaySlot={true}
+                allDaySlot={false}
                 weekNumbers={true}
                 weekText={'Sem.'}
                 navLinks={true}
@@ -260,14 +298,14 @@ export default class Planning extends React.Component {
                 <ModalBody>
                   <FormGroup>
                     <Label for="title">Titre</Label>
-                    <Input type="text" name="title" id="title" value={this.state.formData.title || ''} onChange={this.handleFormChange} autoComplete="label"/>
+                    <Input type="text" name="title" id="title" value={this.state.formData.title || ''} onChange={this.handleFormChange} autoComplete="label" required/>
                   </FormGroup>
                   <FormGroup>
                     <Label for="teacher">Enseignant</Label>
-                    <Input type="select" name="teacher" id="teacher" value={this.state.formData.teacher || ''} onChange={this.handleFormChange}>
+                    <Input type="select" name="teacher" id="teacher" value={this.state.formData.teacher.firstName || ''} onChange={this.handleFormChange} required>
                       <option value="">Sélectionnez un enseignant</option>
-                      {this.state.teachers.data.map((teacher) => (
-                          <option key={teacher.id} value={teacher.id}>
+                      {this.state.teachers.map((teacher) => (
+                          <option key={teacher.id} data-key={teacher.id} value={teacher.firstName}>
                             {`${teacher.firstName} ${teacher.lastName}`}
                           </option>
                       ))}
@@ -275,10 +313,10 @@ export default class Planning extends React.Component {
                   </FormGroup>
                   <FormGroup>
                     <Label for="lesson">Cours</Label>
-                    <Input type="select" name="lesson" id="lesson" value={this.state.formData.lesson || ''} onChange={this.handleFormChange}>
+                    <Input type="select" name="lesson" id="lesson" value={this.state.formData.lesson.label || ''} onChange={this.handleFormChange} required>
                       <option value="">Sélectionnez un cours</option>
-                      {this.state.lessons.data.map((lesson) => (
-                          <option key={lesson.id} value={lesson.id}>
+                      {this.state.lessons.map((lesson) => (
+                          <option key={lesson.id} data-key={lesson.id} value={lesson.label}>
                             {lesson.label}
                           </option>
                       ))}
@@ -286,10 +324,10 @@ export default class Planning extends React.Component {
                   </FormGroup>
                   <FormGroup>
                     <Label for="room">Salle</Label>
-                    <Input type="select" name="room" id="room" value={this.state.formData.room || ''} onChange={this.handleFormChange}>
+                    <Input type="select" name="room" id="room" value={this.state.formData.room.roomName || ''} onChange={this.handleFormChange} required>
                       <option value="">Sélectionnez une salle</option>
-                      {this.state.rooms.data.map((room) => (
-                          <option key={room.id} value={room.id}>
+                      {this.state.rooms.map((room) => (
+                          <option key={room.id} data-key={room.id} value={room.roomName}>
                             {room.roomName}
                           </option>
                       ))}
@@ -297,10 +335,10 @@ export default class Planning extends React.Component {
                   </FormGroup>
                   <FormGroup>
                     <Label for="schoolClass">Promotion</Label>
-                    <Input type="select" name="schoolClass" id="schoolClass" value={this.state.formData.schoolClass || ''} onChange={this.handleFormChange}>
+                    <Input type="select" name="schoolClass" id="schoolClass" value={this.state.formData.schoolClass.label || ''} onChange={this.handleFormChange} required>
                       <option value="">Sélectionnez une promotion</option>
-                      {this.state.schoolClasses.data.map((schoolClass) => (
-                          <option key={schoolClass.id} value={schoolClass.id}>
+                      {this.state.schoolClasses.map((schoolClass) => (
+                          <option key={schoolClass.id} data-key={schoolClass.id} value={schoolClass.label}>
                             {schoolClass.label}
                           </option>
                       ))}
@@ -308,8 +346,8 @@ export default class Planning extends React.Component {
                   </FormGroup>
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="primary" type="submit">{this.state.updateLesson ? 'Modifier' : 'Ajouter'}</Button>
-                  {this.state.updateLesson && (
+                  <Button color="primary" type="submit">{this.state.isUpdateLessonSession ? 'Modifier' : 'Ajouter'}</Button>
+                  {this.state.isUpdateLessonSession && (
                       <Button color="danger" onClick={this.handleDeleteLessonSession}>
                         Supprimer
                       </Button>
@@ -321,24 +359,6 @@ export default class Planning extends React.Component {
           </div>
         </div>
     )
-  }
-
-  // Inutilisé pour l'instant
-  handleDateSelect = (selectInfo) => {
-    let title = prompt('Please enter a new title for your event')
-    let calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      })
-    }
   }
 
   handleDeleteLessonSession = () => {
@@ -362,31 +382,26 @@ export default class Planning extends React.Component {
     }
   };
 
-  // Méthode pour modifier un évènnement
   handleEventClick = (clickInfo) => {
     const event = clickInfo.event;
-    const { lessonDto, roomDto, schoolClassDto, teacherDto } = event.extendedProps;
-    console.log(this.state.formData)
-    console.log(lessonDto)
-    console.log(roomDto)
+    const { lesson, room, schoolClass, teacher } = event.extendedProps;
     this.setState({
       showModal: true,
       selectedEventInfo: event,
       formData: {
         title: event.title,
-        lesson: lessonDto,
-        room: roomDto,
-        schoolClass: schoolClassDto,
-        teacher: teacherDto,
+        lesson: lesson,
+        room: room,
+        schoolClass: schoolClass,
+        teacher: teacher,
       },
-      updateLesson: true,
+      isUpdateLessonSession: true,
     });
   }
 
-  // Méthode utilisé seulement dans la paramétrage du calendar par eventsSet, je sais pas trop à quoi ça sert, je m'en sert pas
   handleEvents = (events) => {
     this.setState({
-      // a faire
+      // TODO
     })
   }
 
@@ -399,16 +414,16 @@ function renderEventContent(eventInfo) {
         <div className='fc-event-title-container'>
           <div className='fc-event-title fc-sticky'>{eventInfo.event.title}</div>
           {Object.keys(eventInfo.event.extendedProps).length > 0 && (
-              <div className='fc-event-teacher'>{eventInfo.event.extendedProps.teacherDto.firstName}</div>
+              <div className='fc-event-teacher'>{eventInfo.event.extendedProps.teacher.firstName}</div>
           )}
           {Object.keys(eventInfo.event.extendedProps).length > 0 && (
-              <div className='fc-event-lesson'>{eventInfo.event.extendedProps.lessonDto.label}</div>
+              <div className='fc-event-lesson'>{eventInfo.event.extendedProps.lesson.label}</div>
           )}
           {Object.keys(eventInfo.event.extendedProps).length > 0 && (
-              <div className='fc-event-room'>{eventInfo.event.extendedProps.roomDto.roomName}</div>
+              <div className='fc-event-room'>{eventInfo.event.extendedProps.room.roomName}</div>
           )}
           {Object.keys(eventInfo.event.extendedProps).length > 0 && (
-              <div className='fc-event-schoolClass'>{eventInfo.event.extendedProps.schoolClassDto.label}</div>
+              <div className='fc-event-schoolClass'>{eventInfo.event.extendedProps.schoolClass.label}</div>
           )}
         </div>
       </div>

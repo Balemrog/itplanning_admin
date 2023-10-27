@@ -11,9 +11,7 @@ const FormationTable = () => {
     const auth = useAuth()
     const user = auth.getUser()
 
-    const [formations, setFormations] = useState({
-        data: []
-    });
+    const [formations, setFormations] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -56,7 +54,7 @@ const FormationTable = () => {
         return <p>Loading...</p>;
     }
 
-    const campusList = formations.data.map(formation => {
+    const campusList = formations.map(formation => {
         const label = `${formation.label || ''}`;
         return <tr key={formation.id}>
             <td>{label}</td>

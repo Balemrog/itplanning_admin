@@ -20,8 +20,8 @@ import StudentTable from "./entities_component/student/StudentTable";
 import StudentForm from "./entities_component/student/StudentForm";
 import LessonTable from "./entities_component/lesson/LessonTable";
 import LessonForm from "./entities_component/lesson/LessonForm";
-import DemandTable from "./entities_component/demand/DemandTable";
-import DemandForm from "./entities_component/demand/DemandForm";
+// import DemandTable from "./entities_component/demand/DemandTable";
+// import DemandForm from "./entities_component/demand/DemandForm";
 
 const App = () => {
     return (
@@ -30,6 +30,8 @@ const App = () => {
                 <Routes>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/" element={<PrivateRoute><Home/></PrivateRoute>}/>
+                    {/*<Route path='/demands' element={<PrivateRoute><DemandTable/></PrivateRoute>}/>*/}
+                    {/*<Route path='/demands/:id' element={<PrivateRoute><DemandForm/></PrivateRoute>}/>*/}
                     <Route path='/admin/teachers' element={<AdminRoute><TeacherTable/></AdminRoute>}/>
                     <Route path='/admin/teachers/:id' element={<AdminRoute><TeacherForm/></AdminRoute>}/>
                     <Route path='/admin/campuses' element={<AdminRoute><CampusTable/></AdminRoute>}/>
@@ -44,8 +46,6 @@ const App = () => {
                     <Route path='/admin/students/:id' element={<AdminRoute><StudentForm/></AdminRoute>}/>
                     <Route path='/admin/lessons' element={<AdminRoute><LessonTable/></AdminRoute>}/>
                     <Route path='/admin/lessons/:id' element={<AdminRoute><LessonForm/></AdminRoute>}/>
-                    <Route path='/demands' element={<PrivateRoute><DemandTable/></PrivateRoute>}/>
-                    <Route path='/demands/:id' element={<PrivateRoute><DemandForm/></PrivateRoute>}/>
                     <Route path="*" element={<Navigate to="/" />}/>
                 </Routes>
             </Router>

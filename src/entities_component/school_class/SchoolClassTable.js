@@ -11,9 +11,7 @@ const SchoolClassTable = () => {
     const auth = useAuth()
     const user = auth.getUser()
 
-    const [schoolClasses, setSchoolClasses] = useState({
-        data: []
-    });
+    const [schoolClasses, setSchoolClasses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -56,7 +54,7 @@ const SchoolClassTable = () => {
         return <p>Loading...</p>;
     }
 
-    const schoolClassList = schoolClasses.data.map(schoolClass => {
+    const schoolClassList = schoolClasses.map(schoolClass => {
         const label = `${schoolClass.label || ''}`;
         return <tr key={schoolClass.id}>
             <td>{label}</td>

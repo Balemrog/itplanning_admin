@@ -11,9 +11,7 @@ const StudentTable = () => {
     const auth = useAuth()
     const user = auth.getUser()
 
-    const [students, setStudents] = useState({
-        data: []
-    });
+    const [students, setStudents] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -56,12 +54,18 @@ const StudentTable = () => {
         return <p>Loading...</p>;
     }
 
-    const studentList = students.data.map(student => {
+    const studentList = students.map(student => {
         const firstName = `${student.firstName || ''}`;
         const lastName = `${student.lastName || ''}`;
+        const modality = `${student.modality || ''}`;
+        const schoolClass = `${student.schoolClass.label || ''}`;
+        const formation = `${student.formation.label || ''}`;
         return <tr key={student.id}>
             <td>{firstName}</td>
             <td>{lastName}</td>
+            <td>{modality}</td>
+            <td>{schoolClass}</td>
+            <td>{formation}</td>
             <td>
                 <ButtonGroup>
                     <Button size="sm" color="primary" tag={Link} to={"/admin/students/" + student.id}>Edit</Button>
@@ -84,6 +88,9 @@ const StudentTable = () => {
                     <tr>
                         <th width="20%">Prénom</th>
                         <th width="20%">Nom</th>
+                        <th width="20%">Modalité</th>
+                        <th width="20%">Promotion</th>
+                        <th width="20%">Formation</th>
                         <th width="10%">Actions</th>
                     </tr>
                     </thead>

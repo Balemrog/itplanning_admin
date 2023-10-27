@@ -30,12 +30,8 @@ const StudentForm = () => {
     const [student, setStudent] = useState(initialFormState);
     const navigate = useNavigate();
     const { id } = useParams();
-    const [schoolClasses, setSchoolClasses] = useState({
-        data: []
-    });
-    const [formations, setFormations] = useState({
-        data: []
-    });
+    const [schoolClasses, setSchoolClasses] = useState([]);
+    const [formations, setFormations] = useState([]);
 
     const handleGetStudents = async () => {
         try {
@@ -92,7 +88,6 @@ const StudentForm = () => {
 
     const handleChange = (event) => {
         const { name, value, type } = event.target;
-
         if (type === "select-one") {
             const selectedIndex  = event.target.options.selectedIndex;
             const id = event.target.options[selectedIndex].getAttribute('data-key')
@@ -143,17 +138,17 @@ const StudentForm = () => {
                     <FormGroup>
                         <Label for="firstName">Prénom</Label>
                         <Input type="text" name="firstName" id="firstName" value={student.firstName || ''}
-                               onChange={handleChange} autoComplete="firstName"/>
+                               onChange={handleChange} autoComplete="firstName" required/>
                     </FormGroup>
                     <FormGroup>
                         <Label for="lastName">Nom</Label>
                         <Input type="text" name="lastName" id="lastName" value={student.lastName || ''}
-                               onChange={handleChange} autoComplete="lastName"/>
+                               onChange={handleChange} autoComplete="lastName" required/>
                     </FormGroup>
                     <FormGroup>
                         <Label for="modality">Modalité</Label>
                         <Input type="select" name="modality" id="modality" value={student.modality || ''}
-                               onChange={handleChange} autoComplete="modality">
+                               onChange={handleChange} autoComplete="modality" required>
                             <option value="">Sélectionnez la modalité</option>
                             <option value={MODALITY.PRESENCE}>{MODALITY.PRESENCE}</option>
                             <option value={MODALITY.PRESENCE_REMOTE}>{MODALITY.PRESENCE_REMOTE}</option>
@@ -163,9 +158,9 @@ const StudentForm = () => {
                     <FormGroup>
                         <Label for="schoolClass">Promotion</Label>
                         <Input type="select" name="schoolClass" id="schoolClass" value={student.schoolClass.label || ''}
-                               onChange={handleChange} autoComplete="schoolClass">
+                               onChange={handleChange} autoComplete="schoolClass" required>
                             <option value="">Sélectionnez la promotion</option>
-                            {schoolClasses.data.map((schoolClass) => (
+                            {schoolClasses.map((schoolClass) => (
                                 <option key={schoolClass.id} data-key={schoolClass.id} value={schoolClass.label}>
                                     {schoolClass.label}
                                 </option>
@@ -175,9 +170,9 @@ const StudentForm = () => {
                     <FormGroup>
                         <Label for="formation">Formation</Label>
                         <Input type="select" name="formation" id="formation" value={student.formation.label || ''}
-                               onChange={handleChange} autoComplete="formation">
+                               onChange={handleChange} autoComplete="formation" required>
                             <option value="">Sélectionnez la formation</option>
-                            {formations.data.map((formation) => (
+                            {formations.map((formation) => (
                                 <option key={formation.id} data-key={formation.id} value={formation.label}>
                                     {formation.label}
                                 </option>

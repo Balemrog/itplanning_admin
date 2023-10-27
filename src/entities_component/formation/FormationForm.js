@@ -72,7 +72,7 @@ const FormationForm = () => {
                     <FormGroup>
                         <Label for="label">Libellé</Label>
                         <Input type="text" name="label" id="label" value={formation.label || ''}
-                               onChange={handleChange} autoComplete="label"/>
+                               onChange={handleChange} autoComplete="label" required/>
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Enregistrer</Button>{' '}

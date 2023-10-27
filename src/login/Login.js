@@ -27,6 +27,7 @@ function Login () {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isError, setIsError] = useState(false)
+    const [errorMsg, setErrorMsg] = useState("")
 
     const loginHandler = async (ev) => {
         ev.preventDefault();
@@ -47,6 +48,7 @@ function Login () {
             } else {
                 handleLogError(response.statusText); // Handle errors if the response status is not in the 200 range
                 setIsError(true);
+                setErrorMsg("Les identifiants sont erronées");
             }
         } catch (error) {
             handleLogError(error.message); // Handle network errors, etc.
@@ -69,28 +71,14 @@ function Login () {
                         <CardBody>
                             <Form onSubmit={loginHandler}>
                                 <FormGroup className="pb-2 mr-sm-2 mb-sm-0">
-                                    <Label for="exampleEmail" className="mr-sm-2">
-                                        Email
-                                    </Label>
-                                    <Input
-                                        type="email"
-                                        name="email"
-                                        id="exampleEmail"
-                                        placeholder="something@idk.cool"
-                                        onChange={(ev) => setUsername(ev.currentTarget.value)}
-                                    />
+                                    <Label for="email" className="mr-sm-2">Email</Label>
+                                    <Input type="email" name="email" id="email" placeholder="nom.prenom@eni.fr"
+                                           onChange={(ev) => setUsername(ev.currentTarget.value)} required/>
                                 </FormGroup>
                                 <FormGroup className="pb-2 mr-sm-2 mb-sm-0">
-                                    <Label for="examplePassword" className="mr-sm-2">
-                                        Password
-                                    </Label>
-                                    <Input
-                                        type="password"
-                                        name="password"
-                                        id="examplePassword"
-                                        placeholder="don't tell!"
-                                        onChange={(ev) => setPassword(ev.currentTarget.value)}
-                                    />
+                                    <Label for="password" className="mr-sm-2">Password</Label>
+                                    <Input type="password" name="password" id="password" placeholder="fourni par l'équipe planning"
+                                           onChange={(ev) => setPassword(ev.currentTarget.value)} required/>
                                 </FormGroup>
                                 <Button type="submit" color="primary">
                                     Login
@@ -100,25 +88,17 @@ function Login () {
                     </Card>
                     <Card className="mt-5">
                         <CardBody>
-                            {isLogged && (
+                            {isError && (
                                 <>
-                                    <div>User is logged in on the system.</div>
-                                    <div className="p-3 bg-success my-2 rounded">
+                                    <div className="p-3 bg-danger my-2 rounded">
                                         <Toast>
-                                            <ToastHeader>Reactstrap</ToastHeader>
+                                            <ToastHeader>Erreur !</ToastHeader>
                                             <ToastBody>
-                                                This is a toast on a success background — check it out!
+                                                {errorMsg}
                                             </ToastBody>
                                         </Toast>
                                     </div>
                                 </>
-                            )}
-
-                            {isError && (
-                                <div>
-                                    Please login with your credentials. <br /> Look at
-                                    https://reqres.in/ for api help.
-                                </div>
                             )}
                         </CardBody>
                     </Card>

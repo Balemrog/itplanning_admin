@@ -72,7 +72,7 @@ const CampusForm = () => {
                     <FormGroup>
                         <Label for="location">Localisation</Label>
                         <Input type="text" name="location" id="location" value={campus.location || ''}
-                               onChange={handleChange} autoComplete="location"/>
+                               onChange={handleChange} autoComplete="location" required/>
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Enregistrer</Button>{' '}

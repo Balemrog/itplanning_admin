@@ -26,7 +26,7 @@ function SearchPlanning() {
                 <Col>
                     <Card className='className="mb-5"'>
                         <CardBody>
-                            <h2>Rechercher un planning</h2>
+                            <h2>Rechercher un planning (Non implémenté pour le moment)</h2>
                             <Form>
                                 <div className='row'>
                                     <FormGroup className="col-md-4 mb-3">

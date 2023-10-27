@@ -11,9 +11,7 @@ const RoomTable = () => {
     const auth = useAuth()
     const user = auth.getUser()
 
-    const [rooms, setRooms] = useState({
-        data: []
-    });
+    const [rooms, setRooms] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -56,7 +54,7 @@ const RoomTable = () => {
         return <p>Loading...</p>;
     }
 
-    const roomList = rooms.data.map(room => {
+    const roomList = rooms.map(room => {
         const material = `${room.material || ''}`;
         const roomName = `${room.roomName || ''}`;
         const building = `${room.building || ''}`;

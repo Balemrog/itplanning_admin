@@ -72,7 +72,7 @@ const LessonForm = () => {
                     <FormGroup>
                         <Label for="label">Nom du cours</Label>
                         <Input type="text" name="label" id="label" value={lesson.label || ''}
-                               onChange={handleChange} autoComplete="label"/>
+                               onChange={handleChange} autoComplete="label" required/>
                     </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Enregistrer</Button>{' '}

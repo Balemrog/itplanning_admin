@@ -11,9 +11,7 @@ const TeacherTable = () => {
     const auth = useAuth()
     const user = auth.getUser()
 
-    const [teachers, setTeachers] = useState({
-        data: []
-    });
+    const [teachers, setTeachers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -56,16 +54,21 @@ const TeacherTable = () => {
         return <p>Loading...</p>;
     }
 
-    const teacherList = teachers.data.map(teacher => {
+    const teacherList = teachers.map(teacher => {
         const firstname = `${teacher.firstName || ''}`;
         const lastname = `${teacher.lastName || ''}`;
         const isEmployee = teacher.isEmployee || false;
+        const lessons = teacher.lessons || [];
+        const lessonLabels = lessons.map(lesson => lesson.label).join(', ');
+
+
         return <tr key={teacher.id}>
             <td>{firstname}</td>
             <td>{lastname}</td>
             <td>
                 <input type="checkbox" checked={isEmployee} disabled />
             </td>
+            <td>{lessonLabels}</td>
             <td>
                 <ButtonGroup>
                     <Button size="sm" color="primary" tag={Link} to={"/admin/teachers/" + teacher.id}>Edit</Button>
@@ -89,6 +92,7 @@ const TeacherTable = () => {
                         <th width="20%">Nom</th>
                         <th width="20%">Prénom</th>
                         <th width="10%">Interne</th>
+                        <th width="10%">Compétences sur les cours</th>
                         <th width="10%">Actions</th>
                     </tr>
                     </thead>

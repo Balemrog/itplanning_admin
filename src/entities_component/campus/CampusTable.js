@@ -11,9 +11,7 @@ const CampusTable = () => {
     const auth = useAuth()
     const user = auth.getUser()
 
-    const [campuses, setCampuses] = useState({
-        data: []
-    });
+    const [campuses, setCampuses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -56,7 +54,7 @@ const CampusTable = () => {
         return <p>Loading...</p>;
     }
 
-    const campusList = campuses.data.map(campus => {
+    const campusList = campuses.map(campus => {
         const firstname = `${campus.location || ''}`;
         return <tr key={campus.id}>
             <td>{firstname}</td>

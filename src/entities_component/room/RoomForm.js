@@ -25,9 +25,7 @@ const RoomForm = () => {
     const [room, setRoom] = useState(initialFormState);
     const navigate = useNavigate();
     const { id } = useParams();
-    const [campuses, setCampuses] = useState({
-        data: []
-    });
+    const [campuses, setCampuses] = useState([]);
 
     const handleGetRooms = async () => {
         try {
@@ -66,15 +64,14 @@ const RoomForm = () => {
 
     const handleChange = (event) => {
         const { name, value, type } = event.target;
-
         if (type === "select-one") {
             const selectedIndex  = event.target.options.selectedIndex;
             const id = event.target.options[selectedIndex].getAttribute('data-key')
             setRoom({...room, campus: {
-                ...room.campus,
+                    ...room.campus,
                     id: id,
                     location: value}
-                });
+            });
         } else {
             setRoom({ ...room, [name]: value });
         }
@@ -82,9 +79,6 @@ const RoomForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (room === initialFormState) {
-            return;
-        }
         try {
             const response = await ItPlanningApi.addOrEditRoom(user, room);
             if (response.ok) {
@@ -108,24 +102,24 @@ const RoomForm = () => {
                     <FormGroup>
                         <Label for="material">Matériel</Label>
                         <Input type="text" name="material" id="material" value={room.material || ''}
-                               onChange={handleChange} autoComplete="material"/>
+                               onChange={handleChange} autoComplete="material" required/>
                     </FormGroup>
                     <FormGroup>
                         <Label for="roomName">Nom de la salle</Label>
                         <Input type="text" name="roomName" id="roomName" value={room.roomName || ''}
-                               onChange={handleChange} autoComplete="roomName"/>
+                               onChange={handleChange} autoComplete="roomName" required/>
                     </FormGroup>
                     <FormGroup>
                         <Label for="building">Bâtiment</Label>
                         <Input type="text" name="building" id="building" value={room.building || ''}
-                               onChange={handleChange} autoComplete="building"/>
+                               onChange={handleChange} autoComplete="building" required/>
                     </FormGroup>
                     <FormGroup>
                         <Label for="campus">Campus</Label>
                         <Input type="select" name="campus" id="campus" value={room.campus.location || ''}
-                               onChange={handleChange} autoComplete="campus">
+                               onChange={handleChange} autoComplete="campus" required>
                             <option value="">Sélectionnez le campus</option>
-                            {campuses.data.map((campus) => (
+                            {campuses.map((campus) => (
                                 <option key={campus.id} data-key={campus.id} value={campus.location}>
                                     {campus.location}
                                 </option>

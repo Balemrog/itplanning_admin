@@ -23,9 +23,9 @@ export const ItPlanningApi = {
     getLessons,
     deleteLesson,
     addOrEditLesson,
-    getDemands,
-    deleteDemand,
-    addOrEditDemand,
+    // getDemands,
+    // deleteDemand,
+    // addOrEditDemand,
     getLessonSessions,
     deleteLessonSession,
     addOrEditLessonSession,
@@ -61,6 +61,7 @@ function deleteTeacher(user, id) {
 }
 
 function addOrEditTeacher(user, teacher) {
+    console.log(teacher)
     return fetch(`${config.url.API_BASE_URL}/api/admin/teachers${teacher.id ? `/${teacher.id}` : ''}`, {
         method: (teacher.id) ? 'PUT' : 'POST',
         headers: {
@@ -181,6 +182,7 @@ function deleteRoom(user, id) {
 }
 
 function addOrEditRoom(user, room) {
+    console.log(room)
     return fetch(`${config.url.API_BASE_URL}/api/admin/rooms${room.id ? `/${room.id}` : ''}`, {
         method: (room.id) ? 'PUT' : 'POST',
         headers: {
@@ -211,6 +213,7 @@ function deleteStudent(user, id) {
 }
 
 function addOrEditStudent(user, student) {
+    console.log(student)
     return fetch(`${config.url.API_BASE_URL}/api/admin/students${student.id ? `/${student.id}` : ''}`, {
         method: (student.id) ? 'PUT' : 'POST',
         headers: {
@@ -251,35 +254,35 @@ function addOrEditLesson(user, lesson) {
     });
 }
 
-function getDemands(user, id) {
-    const url = id ? `${config.url.API_BASE_URL}/api/demands/${id}` : `${config.url.API_BASE_URL}/api/demands`;
-    return fetch(url, {
-        headers: {
-            'Authorization': basicAuth(user),
-        },
-    });
-}
+// function getDemands(user, id) {
+//     const url = id ? `${config.url.API_BASE_URL}/api/demands/${id}` : `${config.url.API_BASE_URL}/api/demands`;
+//     return fetch(url, {
+//         headers: {
+//             'Authorization': basicAuth(user),
+//         },
+//     });
+// }
 
-function deleteDemand(user, id) {
-    return fetch(`${config.url.API_BASE_URL}/api/demands/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': basicAuth(user),
-        },
-    });
-}
+// function deleteDemand(user, id) {
+//     return fetch(`${config.url.API_BASE_URL}/api/demands/${id}`, {
+//         method: 'DELETE',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': basicAuth(user),
+//         },
+//     });
+// }
 
-function addOrEditDemand(user, demand) {
-    return fetch(`${config.url.API_BASE_URL}/api/demands${demand.id ? `/${demand.id}` : ''}`, {
-        method: (demand.id) ? 'PUT' : 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': basicAuth(user),
-        },
-        body: JSON.stringify(demand),
-    });
-}
+// function addOrEditDemand(user, demand) {
+//     return fetch(`${config.url.API_BASE_URL}/api/demands${demand.id ? `/${demand.id}` : ''}`, {
+//         method: (demand.id) ? 'PUT' : 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': basicAuth(user),
+//         },
+//         body: JSON.stringify(demand),
+//     });
+// }
 
 function getLessonSessions(user, id) {
     const url = id ? `${config.url.API_BASE_URL}/api/admin/lesson-sessions/${id}` : `${config.url.API_BASE_URL}/api/lesson-sessions`;
